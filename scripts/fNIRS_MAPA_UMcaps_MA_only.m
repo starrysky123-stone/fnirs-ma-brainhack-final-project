@@ -16,18 +16,38 @@ j.listOfChanges = {
 raw = j.run(raw);
 
 %% Check is every data file is normal 
-excl=[];
-count=1;
-for i=1:length(raw)
-    if length(raw(i).stimulus.keys)~=3
-        excl(count)=i;
-        count=count+1;
-    elseif length(raw(i).stimulus.values{1}.onset)~=16||...
-            length(raw(i).stimulus.values{2}.onset)~=16||...
-            length(raw(i).stimulus.values{3}.onset)~=16
-        excl(count)=i;
-        count=count+1;
+%% Check whether MA and Control markers are complete
+expectedConds = {'MA','Control'};
+expectedN = 16;
+
+excl = [];
+count = 1;
+
+for i = 1:length(raw)
+    keys = raw(i).stimulus.keys;
+    vals = raw(i).stimulus.values;
+
+    for c = 1:length(expectedConds)
+        cond = expectedConds{c};
+        hit = find(strcmp(keys, cond), 1);
+
+        if isempty(hit)
+            excl(count) = i;
+            count = count + 1;
+            break
+        elseif length(vals{hit}.onset) ~= expectedN
+            excl(count) = i;
+            count = count + 1;
+            break
+        end
     end
+end
+
+excl = unique(excl);
+
+fprintf('Datasets excluded because of incomplete MA/Control markers: %d\n', length(excl));
+
+raw(excl) = [];
 end
 
 %% Preprocessing
