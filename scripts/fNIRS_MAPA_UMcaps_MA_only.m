@@ -5,7 +5,25 @@ datadir =uigetdir();
 % GainAdjustmentforCW6(datadir)
 %load Data
 raw = nirs.io.loadDirectory(datadir, {'Group','Subject'});
+%% Exclude incomplete data files
+% Subject 5009: additional unexpected stimulus channel
+% Subject 5078: incomplete Control condition onset count
 
+excludeSubjects = ["5009", "5078"];
+
+keep = true(length(raw), 1);
+
+for i = 1:length(raw)
+    subj = string(raw(i).demographics('Subject'));
+    if any(subj == excludeSubjects)
+        keep(i) = false;
+    end
+end
+
+raw = raw(keep);
+
+fprintf('Excluded subjects: %s\n', strjoin(excludeSubjects, ', '));
+fprintf('Remaining files for analysis: %d\n', length(raw));
 %% Rename conditions
 
 j = nirs.modules.RenameStims();
