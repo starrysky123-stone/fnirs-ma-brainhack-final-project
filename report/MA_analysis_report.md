@@ -54,9 +54,11 @@ This model estimated condition-specific effects for each group while accounting 
 
 The main output figures were saved in the `figures/` folder:
 
-- `figures/MA_contrast_figure_01.png`
-- `figures/MA_contrast_figure_02.png`
-- `figures/MA_contrast_figure_03.png`
+![MA contrast figure 01](../figures/MA_contrast_figure_01.png)
+
+![MA contrast figure 02](../figures/MA_contrast_figure_02.png)
+
+![MA contrast figure 03](../figures/MA_contrast_figure_03.png)
 
 These figures show MA-related contrast results visualized on a 3D brain template.
 
