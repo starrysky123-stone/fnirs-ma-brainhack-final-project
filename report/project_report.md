@@ -70,3 +70,7 @@ The raw fNIRS data are not publicly available. Therefore, this repository focuse
 3. Generate example output figures
 4. Add figures to the report
 5. Prepare final presentation slides
+
+## Data Quality Check
+
+During data quality checking, two datasets were excluded before preprocessing because they did not meet the stimulus-marker completeness criteria. One dataset contained an additional stimulus channel, and one dataset had only 15 Control onsets instead of the expected 16. Therefore, 130 datasets were retained for the MA-only analysis.
