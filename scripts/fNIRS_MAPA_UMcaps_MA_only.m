@@ -123,24 +123,36 @@ coordfile = fullfile('data', 'Orig_32_update_v2.mat');  % Local coordinate file;
 %figure
 %plot3Dbrain_Ver2021_wlabel(intensity,onlypositive,p,coordfile)
 
-%% Contrasts of High and Low literacy
-c = zeros (6, 6); % Letter 6 is the number of the conditions
-c(1,1) = -1; c(1,3) = 1; % High_literacy MA [1 MA-1 Control]
-c(2,1) = -1; c(2,5) = 1; % High_literacy PA [1 PA-1 Control]
-c(3,2) = -1; c(3,4) = 1; % Low_literacy  MA [1 MA-1 Control]
-c(4,2) = -1; c(4,6) = 1; % Low_literacy  PA [1 PA-1 Control]
-% High_literacy MA - Low_literacy MA
-c(5,3) = 1; c(5,1) = -1; c(5,4) = -1; c(5,2) = 1;
-% High_literacy PA - Low_literacy PA
-c(6,5) = 1; c(6,1) = -1; c(6,6) = -1; c(6,2) = 1;
+%% Contrasts for MA-only analyses
+% Column order follows the original MAPA pipeline:
+% 1 = G4_6 Control
+% 2 = G1_3 Control
+% 3 = G4_6 MA
+% 4 = G1_3 MA
+% 5 = G4_6 PA
+% 6 = G1_3 PA
 
-Contrasttable = cell(6,6);
-Contrasttable{1,1} = 'High_literacy MA, FWE<.05';
-Contrasttable{2,1} = 'High_literacy PA, FWE<.05';
-Contrasttable{3,1} = 'Low_literacy  MA, FWE<.05';
-Contrasttable{4,1} = 'Low_literacy  PA, FWE<.05';
-Contrasttable{5,1} = 'High_literacy MA - Low_literacy MA, FWE<.05';
-Contrasttable{6,1} = 'High_literacy PA - Low_literacy PA, FWE<.05';
+c = zeros(3, 6);
+
+% G4_6: MA - Control
+c(1,1) = -1;
+c(1,3) = 1;
+
+% G1_3: MA - Control
+c(2,2) = -1;
+c(2,4) = 1;
+
+% Difference in MA effect between groups:
+% (G4_6 MA - G4_6 Control) - (G1_3 MA - G1_3 Control)
+c(3,3) = 1;
+c(3,1) = -1;
+c(3,4) = -1;
+c(3,2) = 1;
+
+Contrasttable = cell(3,1);
+Contrasttable{1,1} = 'G4_6 MA - Control, FWE<.05';
+Contrasttable{2,1} = 'G1_3 MA - Control, FWE<.05';
+Contrasttable{3,1} = 'G4_6 MA effect - G1_3 MA effect, FWE<.05';
 
 channel = table((1:32)');
 channel.Properties.VariableNames{1} = 'channel';
@@ -170,7 +182,7 @@ end
 
 %% Plot significant channel on 3D brain template of prior results
 for i = 1:size(c,1)
-    onlypositive = [1 1 1 1 0 0];
+    onlypositive = [1 1 0];
     figtitle = Contrasttable{i,1};
     [intensity,p,FWE]=getIntensity_FWE(c(i,:),GroupStats);
     figure
