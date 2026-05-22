@@ -48,7 +48,6 @@ excl = unique(excl);
 fprintf('Datasets excluded because of incomplete MA/Control markers: %d\n', length(excl));
 
 raw(excl) = [];
-end
 
 %% Preprocessing
 % label short separation channels 
