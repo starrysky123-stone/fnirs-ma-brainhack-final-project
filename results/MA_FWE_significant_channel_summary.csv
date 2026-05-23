@@ -1,0 +1,4 @@
+ContrastName,Positive_FWE_n,Negative_FWE_n
+"G4_6 MA - Control, FWE<.05",6,0
+"G1_3 MA - Control, FWE<.05",0,1
+"G4_6 MA effect - G1_3 MA effect, FWE<.05",2,0
