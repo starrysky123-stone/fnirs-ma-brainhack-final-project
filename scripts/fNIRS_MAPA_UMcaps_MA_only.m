@@ -181,7 +181,7 @@ end
 
 %% Plot significant channel on 3D brain template of prior results
 for i = 1:size(c,1)
-    onlypositive = [1 1 0];
+    onlypositive = [0 0 0];
     figtitle = Contrasttable{i,1};
     [intensity,p,FWE]=getIntensity_FWE(c(i,:),GroupStats);
     figure
